@@ -9,7 +9,7 @@ Co-located and composable state management for React.
 The `microstate` API is very simple and looks similar to Redux. 
 
 ### Wrap the part of your app you want to be stateful with a `Provider`.
-This could be at a top level, or for just a small part of the application. There's no need to define reducers or actions.
+This could be at a top level, or for just a small part of the application. There's no need to define reducers or actions. All the provider does here is create a higher order component that receives application state and triggers updates further down the tree. Since we're just using `setState` whether or not to re-render a component is left up to React.
 ```javascript
 // App.js
 import { Provider } from 'microstate'
@@ -26,8 +26,8 @@ export default props => (
 render(<App/>, root)
 ```
 
-### Create stateful components using `connect()`
-Connect accepts three parameters *a la* `connect(initialState, mapStateToProps, mapDispatchToProps)`, and returns a function that accepts a component.
+### Creating and connecting to state
+State is defined at a component level using a method called `connect`. `connect` accepts three parameters: `connect(initialState, mapStateToProps, mapDispatchToProps)`, and returns a function that accepts a component.
 ```javascript
 // Component.js
 import { connect } from 'microstate'
@@ -53,7 +53,7 @@ const mapDispatchToProps = dispatch => {
 const Component = props => (
   <div>
     <button onClick={e => props.greet('Eric')}>Greet</button>
-    <div>{props.output}</div>
+    <span>{props.output}</span>
   </div>
 )
 
@@ -78,6 +78,50 @@ export default props => (
 // index.js
 render(<App/>, root)
 ```
+
+The state defined as `initialState` is provided immediately to the rendered component, as well as hoisted to higher order component provided by `Provider`.
+
+What we have so far looks like this:
+
+<img src="https://raw.githubusercontent.com/estrattonbailey/microstate/master/static/basic.gif" width="300"/>
+
+### Communicating between components
+Let's imagine we define a separate `Output` component to display our greeting and replace the unstyled `<span>` from the previous example. This component doesn't need its own state, it just needs to read new values from the `message` property on `state`.
+
+```javascript
+// Output.js
+export default connect(
+  {},
+  state => ({
+    output: state.message
+  }
+)(props => (
+  <div {...styles}>{props.output}</div>
+))
+```
+
+Then add it to the rendered `App` from above.
+
+```javascript
+// App.js
+import { Provider } from 'microstate'
+import Component from './Component.js'
+import Output from './Output.js'
+
+export default props => (
+  <div>
+    <Provider>
+      <Component/>
+      <Output/>
+    </Provider>
+  </div>
+)
+
+// index.js
+render(<App/>, root)
+```
+
+The `<Output>` component will update just as you would expect.
 
 ## Example
 To run the example, clone this repo, then:
