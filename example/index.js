@@ -27,9 +27,7 @@ const Component = connect(
 const App = props => (
   <div>
     <Provider>
-      <div>
-        <Component/>
-      </div>
+      <Component/>
     </Provider>
   </div>
 )

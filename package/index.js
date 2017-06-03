@@ -71,7 +71,7 @@ export class Provider extends React.Component {
   }
 
   render () {
-    return React.cloneElement(this.props.children, this.props.children.props || {})
+    return <div className="microstate">{this.props.children}</div>
   }
 }
 
