@@ -1,0 +1,125 @@
+$theme: #00C9FC;
+
+@import 'lib/display';
+@import 'lib/positioning';
+@import 'lib/flexbox';
+@import 'lib/align';
+@import 'lib/floats';
+@import 'lib/z-index';
+@import 'lib/typography';
+@import 'lib/buttons';
+@import 'lib/forms';
+@import 'lib/lists';
+@import 'lib/tables';
+@import 'lib/spacing';
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.theme {
+  color: $theme;
+}
+.bg-theme {
+  background: $theme;
+}
+.white {
+  color: white;
+}
+
+.relative { position: relative }
+.absolute { position: absolute }
+.fixed { position: fixed }
+.fit-t, .fit-x { top: 0 }
+.fit-b, .fit-x { bottom: 0 }
+.fit-l, .fit-x { left: 0 }
+.fit-r, .fit-x { right: 0 }
+.fill-v { height: 100vh }
+.fill-v05 { height: 50vh }
+.fill-h { width: 100% }
+
+.container {
+  max-width: 550px
+}
+
+::-moz-selection {
+  background: $theme
+}
+::selection {
+  background: $theme
+}
+
+.root {
+  p {
+    color: rgba(0,0,0,0.4);
+
+    &.sharable {
+      color: black;
+    }
+  }
+}
+
+.sshare {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition-property: transform, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(.24,.82,.35,1);
+}
+.sshare:focus {
+  outline: 0;
+}
+.sshare.is-tacked {
+  visibility: visible;
+}
+.sshare.is-active {
+  opacity: 1;
+}
+.sshare.is-hiding {
+  opacity: 0;
+}
+.sshare__inner {
+  display: flex;
+  background: white;
+
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.sshare__inner::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  margin: auto;
+  width: 10px;
+  height: 10px;
+  transform: translateY(40%) rotate(45deg);
+  background-color: white;
+}
+.sshare__inner a {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  color: black;
+}
+.sshare__inner a:hover {
+  color: $theme;
+}
+.sshare__inner a:focus {
+  color: $theme;
+  outline: 0;
+}
+.sshare__inner a svg {
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin: auto;
+  width: 14px;
+  height: 14px;
+}
