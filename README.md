@@ -1,5 +1,5 @@
 # microstate
-Hyperminimal, co-located and composable state management for React and React-like libraries.
+Co-located and composable state management for React and React-like libraries.
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](http://standardjs.com)
 

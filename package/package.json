@@ -1,7 +1,7 @@
 {
   "name": "microstate",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Co-located and composable state management for React and React-like libraries.",
   "main": "dist/index.js",
   "scripts": {
     "lint": "standard 'src/*.js'",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/estrattonbailey/sshare.git"
+    "url": "git+ssh://git@github.com/estrattonbailey/microstate.git"
   },
   "author": "estrattonbailey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/estrattonbailey/sshare/issues"
+    "url": "https://github.com/estrattonbailey/microstate/issues"
   },
-  "homepage": "https://github.com/estrattonbailey/sshare#readme",
+  "homepage": "https://github.com/estrattonbailey/microstate#readme",
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.22.1",
