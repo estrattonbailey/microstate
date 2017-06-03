@@ -1,11 +1,11 @@
 {
   "name": "microstate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Co-located and composable state management for React and React-like libraries.",
   "main": "dist/index.js",
   "scripts": {
     "lint": "standard 'src/*.js'",
-    "prebuild": "npm run lint && npm copy",
+    "prebuild": "npm run lint",
     "build": "babel index.js -d dist/",
     "watch": "babel -w index.js -d dist/",
     "copy": "rm README.md ; cp ../README.md ./"
