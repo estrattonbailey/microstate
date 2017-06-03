@@ -1,10 +1,15 @@
 # microstate
-Co-located and composable state management for React and React-like libraries.
+Co-located and composable state management for React.
+
+`microstate` is a tiny abstraction on top of React's built-in `setState`, where each *microstate* you create has access to the state properties of every other *microstate* within the same parent scope. This allows you to retain the simplicity of stateful components with the added benefit of being able to communicate between them, without having to reach for something like Redux or MobX.
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](http://standardjs.com)
 
 ## Usage
-`microstate` has essentially the same API as Redux. First, wrap the part of your app you want to be stateful with a `Provider`. There's no need to define reducers or actions: that's all handled at the component level.
+The `microstate` API is very simple and looks similar to Redux. 
+
+### Wrap the part of your app you want to be stateful with a `Provider`.
+This could be at a top level, or for just a small part of the application. There's no need to define reducers or actions.
 ```javascript
 // App.js
 import { Provider } from 'microstate'
@@ -21,29 +26,42 @@ export default props => (
 render(<App/>, root)
 ```
 
-Next, hook up a child component to state using `connect()`:
+### Create stateful components using `connect()`
+Connect accepts three parameters *a la* `connect(initialState, mapStateToProps, mapDispatchToProps)`, and returns a function that accepts a component.
 ```javascript
 // Component.js
 import { connect } from 'microstate'
 
-export default connect(
-  {
-    message: 'Hello!'
-  },
-  state => ({
+const initialState = {
+  message: 'Hello!'
+}
+
+const mapStateToProps = state => {
+  return {
     output: state.message
-  }),
-  dispatch => ({
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
     greet: name => dispatch({
       message: `Hello ${name}!`
     })
-  })
-)(props => (
+  }
+}
+
+const Component = props => (
   <div>
     <button onClick={e => props.greet('Eric')}>Greet</button>
     <div>{props.output}</div>
   </div>
-))
+)
+
+export default connect(
+  initialState,
+  mapStateToProps,
+  mapDispatchToProps
+)(Component)
 
 // App.js
 import { Provider } from 'microstate'
