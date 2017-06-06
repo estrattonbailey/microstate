@@ -32,7 +32,9 @@
     "standard": "^8.6.0"
   },
   "dependencies": {
-    "prop-types": "*"
+    "prop-types": "*",
+    "react-addons-shallow-compare": "^15.5.2",
+    "shallow-equal": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^15.5.4",

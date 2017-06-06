@@ -1,35 +1,19 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { Provider } from 'microstate'
 
-import { Provider, connect } from '../package/dist/index.js'
-
-const Component = connect(
-  {
-    message: 'Hello!'
-  },
-  state => ({
-    output: state.message
-  }),
-  dispatch => ({
-    greet: name => dispatch({
-      message: `Hello ${name}!`
-    })
-  })
-)(props => {
-  return (
-    <div>
-      <button onClick={e => props.greet('Eric')}>Greet</button>
-      <div>{props.output}</div>
-    </div>
-  )
-})
+import Input from './src/Input.js'
+import Todos from './src/Todos.js'
 
 const App = props => (
-  <div>
-    <Provider>
-      <Component/>
-    </Provider>
-  </div>
+  <Provider>
+    <div className="outer">
+      <main>
+        <Input/>
+        <Todos/>
+      </main>
+    </div>
+  </Provider>
 )
 
 render(<App/>, document.getElementById('root'))

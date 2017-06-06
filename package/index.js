@@ -25,8 +25,9 @@ class LocalProvider extends React.Component {
     const { initialState, mapStateToProps, mapDispatchToProps, children } = this.props
     const { getGlobalState, setGlobalState } = this.context
 
-    const state = mapStateToProps(getGlobalState() || initialState)
-    const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState) : {}
+    const _state = getGlobalState() || initialState || {}
+    const state = mapStateToProps ? mapStateToProps(_state) : _state
+    const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}) : {}
 
     return React.cloneElement(children, {
       ...state,
@@ -57,10 +58,7 @@ export class Provider extends React.Component {
 
     return {
       setGlobalState (state) {
-        _.setState({
-          ..._.state,
-          ...state
-        }, () => {
+        state && _.setState(state, () => {
           _.ready = true
         })
       },
@@ -71,7 +69,7 @@ export class Provider extends React.Component {
   }
 
   render () {
-    return <div className="microstate">{this.props.children}</div>
+    return <div>{this.props.children}</div>
   }
 }
 
