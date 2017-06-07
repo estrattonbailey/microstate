@@ -29,11 +29,17 @@ class LocalProvider extends React.Component {
     const state = mapStateToProps ? mapStateToProps(_state) : _state
     const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}) : {}
 
-    return React.cloneElement(children, {
+    const props = {
       ...state,
       ...dispatch,
       ...children.props
-    })
+    }
+
+    return typeof children === 'function' ? (
+      children(props)
+    ) : (
+      React.cloneElement(children, props)
+    )
   }
 }
 
