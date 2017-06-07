@@ -75,7 +75,16 @@ export class Provider extends React.Component {
   }
 
   render () {
-    return <div>{this.props.children}</div>
+    const { children } = this.props
+    const props = {
+      state: this.state
+    }
+
+    return typeof children === 'function' ? (
+      children(props)
+    ) : (
+      React.Children.only(children)
+    )
   }
 }
 
