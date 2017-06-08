@@ -69,8 +69,9 @@ export class Provider extends React.Component {
       setGlobalState (state) {
         state && _.setState(state, () => {
           if (!_.ready) {
-            _.initial = _.state
             _.ready = true
+            _.initial = _.state
+            _.setState(_.initial)
           }
         })
       },
