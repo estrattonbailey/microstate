@@ -6,7 +6,8 @@ class LocalProvider extends React.Component {
 
   static contextTypes = {
     setGlobalState: PropTypes.func,
-    getGlobalState: PropTypes.func
+    getGlobalState: PropTypes.func,
+    getInitialGlobalState: PropTypes.func
   }
 
   constructor (props, context) {
@@ -23,11 +24,11 @@ class LocalProvider extends React.Component {
 
   render() {
     const { initialState, mapStateToProps, mapDispatchToProps, children } = this.props
-    const { getGlobalState, setGlobalState } = this.context
+    const { getGlobalState, setGlobalState, getInitialGlobalState } = this.context
 
     const _state = getGlobalState() || initialState || {}
     const state = mapStateToProps ? mapStateToProps(_state) : _state
-    const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}) : {}
+    const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}, getInitialGlobalState()) : {}
 
     const props = {
       ...state,
@@ -48,7 +49,8 @@ export class Provider extends React.Component {
 
   static childContextTypes = {
     setGlobalState: PropTypes.func,
-    getGlobalState: PropTypes.func
+    getGlobalState: PropTypes.func,
+    getInitialGlobalState: PropTypes.func
   }
 
   constructor (props) {
@@ -57,6 +59,7 @@ export class Provider extends React.Component {
     this.state = {}
 
     this.ready = false
+    this.initial = {}
   }
 
   getChildContext () {
@@ -65,26 +68,23 @@ export class Provider extends React.Component {
     return {
       setGlobalState (state) {
         state && _.setState(state, () => {
-          _.ready = true
+          if (!_.ready) {
+            _.initial = _.state
+            _.ready = true
+          }
         })
       },
       getGlobalState () {
         return _.ready ? _.state : false
+      },
+      getInitialGlobalState () {
+        return _.initial
       }
     }
   }
 
   render () {
-    const { children } = this.props
-    const props = {
-      state: this.state
-    }
-
-    return typeof children === 'function' ? (
-      children(props)
-    ) : (
-      React.Children.only(children)
-    )
+    return React.Children.only(this.props.children)
   }
 }
 
@@ -94,7 +94,7 @@ export const connect = (initialState, mapStateToProps, mapDispatchToProps) => {
       initialState={initialState}
       mapStateToProps={mapStateToProps}
       mapDispatchToProps={mapDispatchToProps}>
-      <Comp/>
+      <Comp {...props}/>
     </LocalProvider>
   )
 }
