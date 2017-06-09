@@ -31,9 +31,9 @@ class LocalProvider extends React.Component {
     const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}, getInitialGlobalState()) : {}
 
     const props = {
+      ...children.props,
       ...state,
-      ...dispatch,
-      ...children.props
+      ...dispatch
     }
 
     return typeof children === 'function' ? (
@@ -74,7 +74,7 @@ export class Provider extends React.Component {
             _.setState(_.initial)
           }
 
-          cb()
+          cb && cb()
         })
       },
       getGlobalState () {
