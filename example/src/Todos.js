@@ -4,10 +4,10 @@ import { connect } from 'microstate'
 export default connect(
   null,
   state => ({
-    todos: state.todos || []
+    todos: state.todos
   })
 )(props => {
-  console.log(props)
+  console.log(props.todos)
   return (
     <div className="todos">
       <ul>

@@ -7,7 +7,8 @@ class LocalProvider extends React.Component {
   static contextTypes = {
     setGlobalState: PropTypes.func,
     getGlobalState: PropTypes.func,
-    getInitialGlobalState: PropTypes.func
+    getInitialGlobalState: PropTypes.func,
+    setInitialGlobalState: PropTypes.func
   }
 
   constructor (props, context) {
@@ -19,14 +20,14 @@ class LocalProvider extends React.Component {
   }
 
   componentWillMount () {
-    this.context.setGlobalState(this.props.initialState)
+    this.context.setInitialGlobalState(this.props.initialState)
   }
 
   render() {
     const { initialState, mapStateToProps, mapDispatchToProps, children } = this.props
     const { getGlobalState, setGlobalState, getInitialGlobalState } = this.context
 
-    const _state = getGlobalState() || initialState || {}
+    const _state = getGlobalState()
     const state = mapStateToProps ? mapStateToProps(_state) : _state
     const dispatch = mapDispatchToProps ? mapDispatchToProps(setGlobalState, _state || {}, getInitialGlobalState()) : {}
 
@@ -50,7 +51,8 @@ export class Provider extends React.Component {
   static childContextTypes = {
     setGlobalState: PropTypes.func,
     getGlobalState: PropTypes.func,
-    getInitialGlobalState: PropTypes.func
+    getInitialGlobalState: PropTypes.func,
+    setInitialGlobalState: PropTypes.func
   }
 
   constructor (props) {
@@ -66,19 +68,20 @@ export class Provider extends React.Component {
     const _ = this
 
     return {
+      setInitialGlobalState (state) {
+        _.initial = Object.assign(_.state, state)
+      },
       setGlobalState (state, cb) {
-        state && _.setState(state, () => {
-          if (!_.ready) {
-            _.ready = true
-            _.initial = _.state
-            _.setState(_.initial)
-          }
+        if (!state) return
+
+        _.setState(state, () => {
+          _.ready = true
 
           cb && cb()
         })
       },
       getGlobalState () {
-        return _.ready ? _.state : false
+        return _.state
       },
       getInitialGlobalState () {
         return _.initial
