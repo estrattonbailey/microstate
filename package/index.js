@@ -8,7 +8,8 @@ class LocalProvider extends React.Component {
     setGlobalState: PropTypes.func,
     getGlobalState: PropTypes.func,
     getInitialGlobalState: PropTypes.func,
-    setInitialGlobalState: PropTypes.func
+    setInitialGlobalState: PropTypes.func,
+    removeGlobalState: PropTypes.func
   }
 
   constructor (props, context) {
@@ -20,7 +21,11 @@ class LocalProvider extends React.Component {
   }
 
   componentWillMount () {
-    this.context.setInitialGlobalState(this.props.initialState)
+    this.context.setInitialGlobalState(this.props.initialState || {})
+  }
+
+  componentWillUnmount () {
+    this.context.removeGlobalState(this.props.initialState || {})
   }
 
   render() {
@@ -52,7 +57,8 @@ export class Provider extends React.Component {
     setGlobalState: PropTypes.func,
     getGlobalState: PropTypes.func,
     getInitialGlobalState: PropTypes.func,
-    setInitialGlobalState: PropTypes.func
+    setInitialGlobalState: PropTypes.func,
+    removeGlobalState: PropTypes.func
   }
 
   constructor (props) {
@@ -72,8 +78,6 @@ export class Provider extends React.Component {
         _.initial = Object.assign(_.state, state)
       },
       setGlobalState (state, cb) {
-        if (!state) return
-
         _.setState(state, () => {
           _.ready = true
 
@@ -85,6 +89,14 @@ export class Provider extends React.Component {
       },
       getInitialGlobalState () {
         return _.initial
+      },
+      removeGlobalState (state) {
+        console.log(state)
+        const keys = Object.keys(state).forEach(key => {
+          delete _.state[key]
+        })
+
+        _.setState(_.state)
       }
     }
   }

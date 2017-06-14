@@ -1,6 +1,6 @@
 {
   "name": "microstate",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Co-located and composable state management for React and React-like libraries.",
   "main": "dist/index.js",
   "scripts": {
