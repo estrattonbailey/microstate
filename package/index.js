@@ -91,7 +91,6 @@ export class Provider extends React.Component {
         return _.initial
       },
       removeGlobalState (state) {
-        console.log(state)
         const keys = Object.keys(state).forEach(key => {
           delete _.state[key]
         })
@@ -106,13 +105,11 @@ export class Provider extends React.Component {
   }
 }
 
-export const connect = (initialState, mapStateToProps, mapDispatchToProps) => {
-  return Comp => props => (
-    <LocalProvider
-      initialState={initialState}
-      mapStateToProps={mapStateToProps}
-      mapDispatchToProps={mapDispatchToProps}>
-      <Comp {...props}/>
-    </LocalProvider>
-  )
-}
+export const connect = (mapStateToProps, mapDispatchToProps, initialState) => Comp => props => (
+  <LocalProvider
+    initialState={initialState}
+    mapStateToProps={mapStateToProps}
+    mapDispatchToProps={mapDispatchToProps}>
+    <Comp {...props}/>
+  </LocalProvider>
+)
