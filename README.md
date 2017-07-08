@@ -1,5 +1,5 @@
 # microstate
-Co-located, functional state management for React. `seState` syntatic sugar.
+Co-located, functional state management for React. `seState` syntatic sugar. **1.3kb**
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](http://standardjs.com)
 
