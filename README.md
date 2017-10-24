@@ -106,9 +106,7 @@ render(<App/>, root)
 ## Note on Usage
 This library is functional and has been used in production. However, the co-located nature of it means that the parent scope (and any other component subscribing to state that is external to itself) does not have access to the individual component state until **after the first render.** This is because the function hasn't fired (components are just functions) and so the co-located state hasn't been evaluated. The answer to this is to define all your state up front, at the top level, which this library doesn't do.
 
-[@jxnblk](https://github.com/jxnblk) has been working on a similar idea with v2 of [refunk](https://github.com/jxnblk/refunk) and I highly recommend it.
-
-Another similar option is [react-organism](https://github.com/RoyalIcing/react-organism) which I haven't used, but it looks neat!
+For similar (and better) options, I'd recommend [refunk](https://github.com/jxnblk/refunk) by [@jxnblk](https://github.com/jxnblk) or [react-organism](https://github.com/RoyalIcing/react-organism) by [@RoyalIcing](https://github.com/RoyalIcing).
 
 * * *
 
